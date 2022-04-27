@@ -12,9 +12,13 @@ const pageController = require('./controllers/pageController');
 const app = express();
 
 //db connection
-mongoose.connect('mongodb://localhost/pcat-test-db', {
+mongoose.connect('mongodb+srv://afsin-admin:YQYlBnVGbH3rzQ0S@cluster0.mgz7s.mongodb.net/pcat-demo?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+}).then(()=>{
+  console.log("DB CONNECTED!");
+}).catch((err)=>{
+  console.log(err);
 });
 
 //template engine
@@ -41,8 +45,9 @@ app.delete('/photos/:id', photoController.deletePhoto);
 app.get('/about', pageController.getAboutPage );
 app.get('/addPhoto', pageController.getAddPage);
 app.get('/photos/edit/:id', pageController.getEditPage);
+
 //server
-const port = 3000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda baslatildi`);
 });
